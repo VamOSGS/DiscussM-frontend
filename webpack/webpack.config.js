@@ -19,6 +19,10 @@ const common = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
             },
+            {
+                test: /\.css$/,
+                loaders: ['css-loader', 'style-loader'],
+            },
         ],
     },
 };

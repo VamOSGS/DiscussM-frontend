@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store';
 import Root from './components/Root';
+import './index.less';
 
 const store = configureStore();
 function render(Component) {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <BrowserRouter>
+                <BrowserRouter component={Component}>
                     <Component />
                 </BrowserRouter>
             </Provider>
