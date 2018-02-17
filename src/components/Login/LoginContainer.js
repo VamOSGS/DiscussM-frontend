@@ -9,12 +9,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLogin: data => {
-        dispatch(login(data));
-    },
-    onFix: (data) => {
+    onLogin: data => dispatch(login(data)),
+    onFix: data => {
         dispatch(fixRegister(data));
-    },
+    }
 });
 
 const LoginContainer = withRouter(

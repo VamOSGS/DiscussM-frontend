@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import LoginContainer from './Login';
-import RegisterContainer from './Register';
-import HeaderContainer from './Header';
-import ProfileContainer from './Profile';
+import Login from './Login';
+import Register from './Register';
+import Header from './Header';
+import Profile from './Profile';
+import Home from './Home';
 
 const Root = () => (
     <div>
-        <HeaderContainer />
+        <Header />
         <div className="b">
-            <Route path="/login" component={LoginContainer} />
-            <Route path="/register" component={RegisterContainer} />
-            <Route path="/my" component={ProfileContainer} />
+            {/* <h1>Welcome to DiscussM!</h1> */}
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/my" component={Profile} />
+            <Route path="/" exact component={Home} />
         </div>
     </div>
 );

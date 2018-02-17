@@ -55,7 +55,7 @@ export default class Register extends Component {
                 formData.append('name', name.text);
                 this.props.onRegister(formData).then(d => {
                     this.setState(this.initState);
-                    this.props.history.push('/');
+                    this.props.history.push('/my');
                 });
             }
         });

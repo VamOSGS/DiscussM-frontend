@@ -14,7 +14,6 @@ export default (state = initialState, action) => {
                 [action.payload.field]: action.payload.message
             };
         case FIX_REGISTER:
-            console.log(action.payload);
             return {
                 ...state,
                 [action.payload]: ''

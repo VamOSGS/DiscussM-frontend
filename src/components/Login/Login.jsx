@@ -40,13 +40,13 @@ export default class Login extends Component {
         return new Promise(resolve => {
             if (!username.value) {
                 this.setState({
-                    errors: [...this.state.errors, 1],
+                    errors: [...this.state.errors, 'username'],
                     username: { err: 'This field required' }
                 });
             }
             if (!password.value) {
                 this.setState({
-                    errors: [...this.state.errors, 1],
+                    errors: [...this.state.errors, 'password'],
                     password: { err: 'This field required' }
                 });
             }
@@ -57,12 +57,27 @@ export default class Login extends Component {
         const { username, password } = this.state;
         this.validate().then(() => {
             if (this.state.errors.length === 0) {
-                this.props.onLogin({
-                    username: username.value,
-                    password: password.value
-                });
+                this.props
+                    .onLogin({
+                        username: username.value,
+                        password: password.value
+                    })
+                    .then(res => {
+                        if (res.success) {
+                            this.props.history.push('/my');
+                        }
+                    });
             }
         });
+    }
+    componentWillUnmount() {
+        const { password, username } = this.props.validate;
+        if (password !== '') {
+            this.props.onFix('password');
+        }
+        if (username !== '') {
+            this.props.onFix('username');
+        }
     }
     render() {
         const { password, username } = this.state;
