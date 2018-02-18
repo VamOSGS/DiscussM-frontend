@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --open --hot --config webpack/webpack.config.js --env development",
+        "start": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --open --color --config webpack/webpack.config.js --env development",
         "build": "node node_modules/webpack/bin/webpack.js  --config webpack/webpack.config.js --env production"
     },
     "devDependencies": {
@@ -35,6 +35,7 @@
     },
     "dependencies": {
         "axios": "^0.17.1",
+        "express": "4.14.0",
         "jwt-decode": "^2.2.0",
         "material-ui": "^1.0.0-beta.33",
         "material-ui-icons": "^1.0.0-beta.17",

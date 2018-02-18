@@ -3,7 +3,6 @@ import './Messages.less';
 
 export default class Messages extends Component {
     render() {
-        console.log(this.props);
         const { messages } = this.props;
         return (
             <div className="messages">

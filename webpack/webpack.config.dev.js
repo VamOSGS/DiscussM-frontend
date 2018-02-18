@@ -5,13 +5,17 @@ const webpack = require('webpack');
 
 const development = merge(
     {
-        entry: [
-            'react-hot-loader/patch',
-            `webpack-dev-server/client?http://localhost:${PORT}`,
-            'webpack/hot/only-dev-server',
-            PATHS.APP,
+        // entry: [
+        //     'react-hot-loader/patch',
+        //     `webpack-dev-server/client?http://localhost:${PORT}`,
+        //     'webpack/hot/only-dev-server',
+        //     PATHS.APP
+        // ],
+        entry: PATHS.APP,
+        plugins: [
+            new webpack.NamedModulesPlugin(),
+            new webpack.HotModuleReplacementPlugin()
         ],
-        plugins: [new webpack.NamedModulesPlugin()],
         devServer: {
             stats: 'errors-only',
             port: PORT,
@@ -20,34 +24,35 @@ const development = merge(
             inline: true,
             overlay: {
                 errors: true,
-                warnings: true,
+                warnings: true
             },
-            contentBase: PATHS.DIST,
-        },
+            historyApiFallback: true,
+            contentBase: PATHS.DIST
+        }
     },
     parts.envVar('development'),
     parts.sourceMaps('source-map'),
     parts.styleLoader({
         use: [
             {
-                loader: 'style-loader',
+                loader: 'style-loader'
             },
             {
-                loader: 'css-loader',
+                loader: 'css-loader'
             },
             {
-                loader: 'less-loader',
+                loader: 'less-loader'
             },
             {
                 loader: 'postcss-loader',
                 options: {
                     config: {
-                        path: PATHS.POSTCSS,
-                    },
-                },
-            },
-        ],
-    }),
+                        path: PATHS.POSTCSS
+                    }
+                }
+            }
+        ]
+    })
 );
 
 module.exports = development;

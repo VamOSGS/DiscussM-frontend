@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import root from './root';
+import user from './user';
+import userpage from './userpage';
 import validate from './validate';
 import messages from './messages';
 
 export default combineReducers({
-    root,
+    user,
     validate,
+    userpage,
     messages,
 });

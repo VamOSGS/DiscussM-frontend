@@ -4,7 +4,7 @@ import Header from './Header';
 import { setUser, logout } from '../../actions';
 
 const mapStateToProps = state => ({
-    root: state.root
+    user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

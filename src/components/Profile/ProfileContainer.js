@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Profile from './Profile';
-import { getMessages } from '../../actions';
+import { getMessages, getUserPage } from '../../actions';
 
 const mapStateToProps = state => ({
-    root: state.root
+    user: state.user,
+    userpage: state.userpage
 });
 const mapDispatchToProps = dispatch => ({
-    onGetMessages: data => dispatch(getMessages(data))
+    onGetMessages: data => dispatch(getMessages(data)),
+    onGetUserPage: username => dispatch(getUserPage(username)),
 });
 
 const ProfileContainer = withRouter(

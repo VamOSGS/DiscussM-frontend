@@ -53,7 +53,7 @@ export default class Login extends Component {
             resolve();
         });
     }
-    handleSubmit() {
+    handleSubmit(e) {
         const { username, password } = this.state;
         this.validate().then(() => {
             if (this.state.errors.length === 0) {
@@ -84,7 +84,7 @@ export default class Login extends Component {
         return (
             <div className="login">
                 <h1>Login</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <input
                         className="field"
                         value={username.text}

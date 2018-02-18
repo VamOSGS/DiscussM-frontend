@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { login, fixRegister } from '../../actions';
 
 const mapStateToProps = state => ({
-    root: state.root,
     validate: state.validate
 });
 

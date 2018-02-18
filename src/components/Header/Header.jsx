@@ -14,13 +14,12 @@ export default class Header extends Component {
         if (token) {
             const data = { token, user: jwtDecode(token).user };
             this.props.onSetUser(data);
-            this.props.history.push('/my');
         }
     }
     render() {
         return (
             <header>
-                {this.props.root.loggedIn ? (
+                {this.props.user.loggedIn ? (
                     <div className="right-content">
                         <Link href="/my" to="/my">
                             <IconButton

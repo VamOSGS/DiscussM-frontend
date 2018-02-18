@@ -10,7 +10,6 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 const mapStateToProps = state => ({
-    root: state.root,
     validate: state.validate,
 });
 

@@ -10,12 +10,17 @@ const Root = () => (
     <div>
         <Header />
         <div className="b">
-            {/* <h1>Welcome to DiscussM!</h1> */}
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/my" component={Profile} />
+            <Route path="/my" render={props => <Profile my={true} />} />
+
             <Route path="/" exact component={Home} />
+            <Route
+                path="/user/:username"
+                render={props => <Profile my={false} />}
+            />
         </div>
     </div>
 );
+
 export default Root;

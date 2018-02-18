@@ -1,49 +1,83 @@
 import React, { Component } from 'react';
 import Avatar from 'material-ui/Avatar';
 import Messages from '../Messages';
+import SendMessage from '../SendMessage';
 import './Profile.less';
 
 export default class Profile extends Component {
-    componentDidMount() {
-        // if (!this.props.root.isLogged) {
-        //     this.props.history.push('/login');
-        // }
-
+    componentWillMount() {
+        const username = this.props.match.params.username;
         const data = {
-            username: this.props.root.user.username,
-            id: this.props.root.user._id
+            username: this.props.user.user.username,
+            id: this.props.user.user._id
         };
-        this.props.onGetMessages(data);
+        if (this.props.my) {
+            this.props.onGetMessages(data);
+        } else {
+            if (username === data.username) {
+                this.props.history.push('/my');
+            } else {
+                this.props.onGetUserPage(username);
+            }
+        }
     }
     render() {
-        const {
-            username,
-            age,
-            gender,
-            email,
-            image,
-            name
-        } = this.props.root.user;
-        return (
-            <main className="profile">
-                <div className="userinfo">
-                    <div className="img">
-                        <Avatar
-                            src={`http://localhost:8000${
-                                image ? image : '/uploads/user-default.png'
-                            }`}
-                        />
+        if (this.props.my) {
+            console.log(this.props.my);
+            const {
+                username,
+                age,
+                gender,
+                email,
+                image,
+                name
+            } = this.props.user.user;
+            return (
+                <main className="profile">
+                    <div className="userinfo">
+                        <div className="img">
+                            <Avatar
+                                src={`http://localhost:8000${image ||
+                                    '/uploads/user-default.png'}`}
+                            />
+                        </div>
+
+                        <h2 className="username">{username}</h2>
+                        {name ? <p className="name"> {name} </p> : null}
                     </div>
+                    <Messages />
+                </main>
+            );
+        } else {
+            const {
+                username,
+                age,
+                gender,
+                image,
+                name,
+                success
+            } = this.props.userpage;
+            if (success) {
+                return (
+                    <main className="profile">
+                        <div className="userinfo">
+                            <div className="img">
+                                <Avatar src={`http://localhost:8000${image}`} />
+                            </div>
 
-                    <h2 className="username">{username}</h2>
-                    {name ? <p className="name"> {name} </p> : null}
-
-                    {/* <h2>Age: {age}</h2>
-                    <h2>Gender: {gender}</h2>
-                    <h2>Email: {email}</h2> */}
-                </div>
-                <Messages />
-            </main>
-        );
+                            <h2 className="username">{username}</h2>
+                            {name ? <p className="name"> {name} </p> : null}
+                        </div>
+                        <SendMessage />
+                    </main>
+                );
+            } else {
+                return (
+                    <main className="profile">
+                        <h2>User not found!</h2>
+                    </main>
+                );
+            }
+        }
     }
 }

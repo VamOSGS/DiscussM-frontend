@@ -4,8 +4,14 @@ import {
     FAIL_REGISTER,
     FIX_REGISTER,
     REMOVE_USER,
+    USER_PAGE,
     GET_MESSAGES
 } from '../constants';
+
+const setUserPage = payload => ({
+    type: USER_PAGE,
+    payload
+});
 
 export const fixRegister = payload => ({
     type: FIX_REGISTER,
@@ -28,7 +34,7 @@ export const setMessages = payload => ({
 });
 export const getMessages = data => dispatch =>
     axios
-        .patch('http://localhost:8000/messages', data)
+        .patch('http://localhost:8000/api/messages', data)
         .then(res => res.data)
         .then(d => {
             dispatch(setMessages(d.messages));
@@ -38,9 +44,16 @@ export const logout = () => dispatch => {
     localStorage.removeItem('token');
     dispatch(removeUser());
 };
+export const getUserPage = username => dispatch =>
+    axios
+        .get(`/api/user/${username}`)
+        .then(res => res.data)
+        .then(res => {
+            dispatch(setUserPage(res));
+        });
 export const login = data => dispatch =>
     axios
-        .post('http://localhost:8000/login', data)
+        .post('/api/login', data)
         .then(res => res.data)
         .then(info => {
             if (info.success) {
@@ -54,7 +67,7 @@ export const login = data => dispatch =>
 
 export const register = data => dispatch =>
     axios
-        .post('http://localhost:8000/register', data)
+        .post('/api/register', data)
         .then(res => res.data)
         .then(info => {
             if (info.success) {
