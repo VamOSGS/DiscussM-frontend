@@ -5,6 +5,7 @@ import {
     FIX_REGISTER,
     REMOVE_USER,
     USER_PAGE,
+    SEND_MESSAGE,
     GET_MESSAGES
 } from '../constants';
 
@@ -32,9 +33,16 @@ export const setMessages = payload => ({
     type: GET_MESSAGES,
     payload
 });
+export const sendMessage = data => dispatch =>
+    axios
+        .post('/api/send', data)
+        .then(res => res.data)
+        .then(res => {
+            console.log(res);
+        });
 export const getMessages = data => dispatch =>
     axios
-        .patch('http://localhost:8000/api/messages', data)
+        .patch('/api/messages', data)
         .then(res => res.data)
         .then(d => {
             dispatch(setMessages(d.messages));

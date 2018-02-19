@@ -35,7 +35,6 @@
     },
     "dependencies": {
         "axios": "^0.17.1",
-        "express": "4.14.0",
         "jwt-decode": "^2.2.0",
         "material-ui": "^1.0.0-beta.33",
         "material-ui-icons": "^1.0.0-beta.17",
