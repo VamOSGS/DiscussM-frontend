@@ -62,7 +62,9 @@ export default class Profile extends Component {
                     <main className="profile">
                         <div className="userinfo">
                             <div className="img">
-                                <Avatar src={`http://localhost:8000${image}`} />
+                                <Avatar
+                                    src={`${window.location.origin}${image}`}
+                                />
                             </div>
 
                             <h2 className="username">{username}</h2>
