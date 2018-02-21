@@ -1,19 +1,39 @@
 .profile {
-    margin-top: 13vh;
+    margin-top: 110px;
+    @media only screen and (max-width: 690px) {
+        margin-top: 210px;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .loader {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        right: 0;
+        left: 0;
+    }
     .userinfo {
         text-align: center;
         .img {
             position: relative;
-            width: 10vw;
+            width: 200px;
+            @media only screen and (max-width: 690px) {
+                width: 40vw;
+            }
             margin: auto;
             div {
-                width: 10vw;
-                height: 10vw;
-                margin: auto auto 2vw;
+                width: 200px;
+                height: 200px;
+                margin: auto auto 40px;
+                @media only screen and (max-width: 690px) {
+                    width: 40vw;
+                    height: 40vw;
+                    margin: auto auto 5vw;
+                }
             }
             // width: 10vw;
             // height: 10vw;

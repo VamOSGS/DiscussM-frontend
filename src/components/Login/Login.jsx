@@ -113,7 +113,7 @@ export default class Login extends Component {
                     {this.props.validate.password ? (
                         <p className="err">{this.props.validate.password}</p>
                     ) : null}
-                    <Button onClick={this.handleSubmit} variant="raised">
+                    <Button onClick={this.handleSubmit}  color="primary" variant="raised">
                         Login
                     </Button>
                 </form>

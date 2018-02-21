@@ -44,8 +44,10 @@ export const getMessages = data => dispatch =>
     axios
         .patch('/api/messages', data)
         .then(res => res.data)
-        .then(d => {
-            dispatch(setMessages(d.messages));
+        .then(res => {
+            console.log(res);
+            dispatch(setMessages(res.messages));
+            return res;
         });
 
 export const logout = () => dispatch => {
@@ -58,6 +60,7 @@ export const getUserPage = username => dispatch =>
         .then(res => res.data)
         .then(res => {
             dispatch(setUserPage(res));
+            return res;
         });
 export const login = data => dispatch =>
     axios

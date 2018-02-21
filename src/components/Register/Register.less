@@ -1,22 +1,26 @@
 .register {
     display: flex;
     justify-content: center;
-    width: 50vw;
+    width: 960px;
     flex-direction: column;
     align-items: center;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    margin: 150px auto 20px;
+    @media only screen and (max-width: 960px) {
+        width: 100%;
+    }
     form {
+        display: flex;
+        width: 50%;
+        @media only screen and (max-width: 960px) {
+            width: 80%;
+        }
+        flex-direction: column;
         .field {
             display: block;
             padding: 15px 10px;
             background-color: #f1f1f1;
             border: none;
-            width: 50%;
+            width: 100%;
             outline: none;
             font-size: 16px;
             font-family: Open Sans, sans-serif;
@@ -37,21 +41,19 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            width: 50%;
+            width: 100%;
             margin: auto;
             p {
                 margin-right: 10px;
             }
         }
-        display: flex;
-        width: 80%;
-        flex-direction: column;
+
         #file {
             margin: 0 auto;
         }
         .mBtn {
             width: 100px;
-            margin: 2% 60%;
+            margin-top: 20px;
         }
         .uploaded {
             div {

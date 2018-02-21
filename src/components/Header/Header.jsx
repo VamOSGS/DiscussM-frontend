@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
 import jwtDecode from 'jwt-decode';
 import './Header.less';
 
@@ -22,24 +23,22 @@ export default class Header extends Component {
                 {this.props.user.loggedIn ? (
                     <div className="right-content">
                         <Link href="/my" to="/my">
-                            <IconButton
-                                aria-haspopup="true"
-                                color="inherit"
-                            >
+                            <IconButton aria-haspopup="true" color="inherit">
                                 <AccountCircle />
                             </IconButton>
                         </Link>
                         <Link onClick={this.props.onLogOut} href="/" to="/">
-                            Log out
+                            <Button style={{ color: 'white' }}>Log out</Button>
                         </Link>
                     </div>
                 ) : (
                     <div className="right-content">
                         <Link href="/login" to="/login">
-                            Login
+                            <Button style={{ color: 'white' }}>Login</Button>
                         </Link>
+
                         <Link href="/register" to="/register">
-                            Register
+                            <Button style={{ color: 'white' }}>Register</Button>
                         </Link>
                     </div>
                 )}

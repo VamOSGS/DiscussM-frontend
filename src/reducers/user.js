@@ -2,6 +2,7 @@ import { SET_USER, FAIL_REGISTER, REMOVE_USER } from '../constants';
 
 const initialState = {
     loggedIn: false,
+    success: false,
     user: {}
 };
 
@@ -11,6 +12,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loggedIn: true,
+                success: true,
                 user: action.payload.user,
                 token: action.payload.token
             };

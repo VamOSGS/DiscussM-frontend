@@ -11,17 +11,32 @@ header {
     align-items: center;
     justify-content: space-between;
     flex-direction: row-reverse;
+    @media only screen and (max-width: 690px) {
+        flex-direction: column-reverse;
+        height: auto;
+        text-align: center;
+        padding: 20px 0 10px 0;
+    }
+
     .right-content {
         margin-right: 150px;
         a {
             margin: 5px;
             color: aliceblue;
         }
+        @media only screen and (max-width: 690px) {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
     }
     .left-content {
         margin-left: 150px;
+        @media only screen and (max-width: 690px) {
+            margin: auto;
+        }
         h2 {
-            color: #FFC107;
+            color: #ffc107;
         }
     }
 }
