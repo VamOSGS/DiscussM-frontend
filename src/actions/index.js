@@ -37,9 +37,6 @@ export const sendMessage = data => dispatch =>
     axios
         .post('/api/send', data)
         .then(res => res.data)
-        .then(res => {
-            console.log(res);
-        });
 export const getMessages = data => dispatch =>
     axios
         .patch('/api/messages', data)
