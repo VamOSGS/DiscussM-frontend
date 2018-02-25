@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
+import Facebook from '../Facebook';
 import './Login.less';
 
 export default class Login extends Component {
@@ -10,44 +11,36 @@ export default class Login extends Component {
             errors: [],
             username: {
                 value: '',
-                err: ''
+                err: '',
             },
             password: {
                 value: '',
-                err: ''
-            }
+                err: '',
+            },
         };
     }
-    handleChange = prop => e => {
-        const removedErr = this.state.errors;
-        removedErr.pop();
-        this.setState({
-            errors: removedErr,
-            [prop]: {
-                value: e.target.value,
-                err: ''
-            }
-        });
-        if (
-            this.props.validate.password !== '' ||
-            this.props.validate.username !== ''
-        ) {
-            this.props.onFix(prop);
+    componentWillUnmount() {
+        const { password, username } = this.props.validate;
+        if (password !== '') {
+            this.props.onFix('password');
         }
-    };
+        if (username !== '') {
+            this.props.onFix('username');
+        }
+    }
     validate() {
         const { username, password } = this.state;
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (!username.value) {
                 this.setState({
                     errors: [...this.state.errors, 'username'],
-                    username: { err: 'This field required' }
+                    username: { err: 'This field required' },
                 });
             }
             if (!password.value) {
                 this.setState({
                     errors: [...this.state.errors, 'password'],
-                    password: { err: 'This field required' }
+                    password: { err: 'This field required' },
                 });
             }
             resolve();
@@ -60,9 +53,9 @@ export default class Login extends Component {
                 this.props
                     .onLogin({
                         username: username.value,
-                        password: password.value
+                        password: password.value,
                     })
-                    .then(res => {
+                    .then((res) => {
                         if (res.success) {
                             this.props.history.push('/my');
                         }
@@ -70,20 +63,27 @@ export default class Login extends Component {
             }
         });
     }
-    componentWillUnmount() {
-        const { password, username } = this.props.validate;
-        if (password !== '') {
-            this.props.onFix('password');
+
+    handleChange = prop => (e) => {
+        const removedErr = this.state.errors;
+        removedErr.pop();
+        this.setState({
+            errors: removedErr,
+            [prop]: {
+                value: e.target.value,
+                err: '',
+            },
+        });
+        if (this.props.validate.password !== '' || this.props.validate.username !== '') {
+            this.props.onFix(prop);
         }
-        if (username !== '') {
-            this.props.onFix('username');
-        }
-    }
+    };
     render() {
         const { password, username } = this.state;
         return (
             <div className="login">
                 <h1>Login</h1>
+                <Facebook />
                 <form onSubmit={this.handleSubmit}>
                     <input
                         className="field"
@@ -93,9 +93,7 @@ export default class Login extends Component {
                         name="username"
                         onChange={this.handleChange('username')}
                     />
-                    {username.err ? (
-                        <p className="err">{username.err}</p>
-                    ) : null}
+                    {username.err ? <p className="err">{username.err}</p> : null}
                     {this.props.validate.username ? (
                         <p className="err">{this.props.validate.username}</p>
                     ) : null}
@@ -107,13 +105,11 @@ export default class Login extends Component {
                         name="password"
                         onChange={this.handleChange('password')}
                     />
-                    {password.err ? (
-                        <p className="err">{password.err}</p>
-                    ) : null}
+                    {password.err ? <p className="err">{password.err}</p> : null}
                     {this.props.validate.password ? (
                         <p className="err">{this.props.validate.password}</p>
                     ) : null}
-                    <Button onClick={this.handleSubmit}  color="primary" variant="raised">
+                    <Button onClick={this.handleSubmit} color="primary" variant="raised">
                         Login
                     </Button>
                 </form>

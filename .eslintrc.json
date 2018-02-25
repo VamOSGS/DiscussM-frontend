@@ -9,7 +9,7 @@
         "react/no-unused-prop-types": "warn",
         "linebreak-style": "off",
         "global-require": "off",
-        "no-undef": ["warn", { "FormData": true }],
+        "no-undef": "warn",
         "no-unused-expressions": "off",
         "no-plusplus": "off",
         "no-console": "off",

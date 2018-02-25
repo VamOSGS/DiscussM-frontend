@@ -7,9 +7,6 @@ import jwtDecode from 'jwt-decode';
 import './Header.less';
 
 export default class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
     componentWillMount() {
         const token = localStorage.getItem('token');
         if (token) {

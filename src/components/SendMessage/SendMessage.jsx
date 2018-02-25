@@ -10,35 +10,35 @@ export default class SendMessage extends Component {
         this.state = {
             message: {
                 value: '',
-                err: false
+                err: false,
             },
             loading: false,
-            sent: false
+            sent: false,
         };
     }
 
-    handleChange = param => e => {
+    handleChange = param => (e) => {
         this.setState({
             [param]: { value: e.target.value, err: false },
-            sent: false
+            sent: false,
         });
     };
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         if (this.state.message.value) {
             this.setState({ loading: true });
             const date = new Date().toDateString();
             const data = {
                 to: {
                     username: this.props.userpage.username,
-                    id: this.props.userpage.id
+                    id: this.props.userpage.id,
                 },
                 message: {
                     date,
-                    message: this.state.message.value
-                }
+                    message: this.state.message.value,
+                },
             };
-            this.props.onSend(data).then(res => {
+            this.props.onSend(data).then((res) => {
                 if (res.success) {
                     this.setState({ message: { value: '' } });
                     setTimeout(() => {
@@ -57,9 +57,7 @@ export default class SendMessage extends Component {
             <div className="send">
                 <h3>Send Message</h3>
                 <form onSubmit={this.handleSubmit}>
-                    {message.err && (
-                        <p className="err">You can't send empty message</p>
-                    )}
+                    {message.err && <p className="err">You can't send empty message</p>}
                     {loading && <CircularProgress size={24} />}
                     {sent && <p className="sent">Your message sent!</p>}
                     <textarea
@@ -69,11 +67,7 @@ export default class SendMessage extends Component {
                         rows="10"
                     />
 
-                    <Button
-                        onClick={this.handleSubmit}
-                        color="primary"
-                        variant="raised"
-                    >
+                    <Button onClick={this.handleSubmit} color="primary" variant="raised">
                         Send
                     </Button>
                 </form>

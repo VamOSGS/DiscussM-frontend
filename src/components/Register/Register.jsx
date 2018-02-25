@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Button from 'material-ui/Button';
-import DeleteIcon from 'material-ui-icons/Delete';
-import FileUpload from 'material-ui-icons/FileUpload';
-import IconButton from 'material-ui/IconButton';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
+import Facebook from '../Facebook';
 import Uploader from './Uploader';
 import './Register.less';
 
@@ -17,42 +15,35 @@ export default class Register extends Component {
             image: '',
             username: {
                 text: '',
-                err: ''
+                err: '',
             },
             name: {
                 text: '',
-                err: ''
+                err: '',
             },
             gender: {
                 text: '',
-                err: ''
+                err: '',
             },
             email: {
                 text: '',
-                err: ''
+                err: '',
             },
             password: {
                 text: '',
-                err: ''
+                err: '',
             },
             age: {
                 text: '',
-                err: ''
-            }
+                err: '',
+            },
         };
         this.state = this.initState;
     }
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         const {
-            selectedFile,
-            username,
-            gender,
-            email,
-            password,
-            age,
-            image,
-            name
+            selectedFile, username, gender, email, password, age, image, name,
         } = this.state;
         this.validate().then(() => {
             if (this.state.errors.length === 0) {
@@ -63,10 +54,9 @@ export default class Register extends Component {
                     password: password.text,
                     age: age.text,
                     image,
-                    gender: gender.text
+                    gender: gender.text,
                 };
-                console.log(data);
-                this.props.onRegister(data).then(d => {
+                this.props.onRegister(data).then((d) => {
                     this.setState(this.initState);
                     this.props.history.push('/my');
                 });
@@ -74,23 +64,25 @@ export default class Register extends Component {
         });
     };
 
-    validate(formData) {
-        const { username, password, email, age, gender } = this.state;
-        return new Promise(resolve => {
+    validate() {
+        const {
+            username, password, email, age, gender,
+        } = this.state;
+        return new Promise((resolve) => {
             if (username.text) {
                 if (username.text.length < 2) {
                     this.setState({
                         errors: [...this.state.errors, 1],
                         username: {
                             text: username.text,
-                            err: 'Too short username'
-                        }
+                            err: 'Too short username',
+                        },
                     });
                 }
             } else {
                 this.setState({
                     errors: [...this.state.errors, 1],
-                    username: { text: '', err: 'Username required' }
+                    username: { text: '', err: 'Username required' },
                 });
             }
 
@@ -99,13 +91,13 @@ export default class Register extends Component {
                 if (!isEmail) {
                     this.setState({
                         errors: [...this.state.errors, 1],
-                        email: { text: email.text, err: 'Not valid Email!' }
+                        email: { text: email.text, err: 'Not valid Email!' },
                     });
                 }
             } else {
                 this.setState({
                     errors: [...this.state.errors, 1],
-                    email: { text: '', err: 'Email required' }
+                    email: { text: '', err: 'Email required' },
                 });
             }
             if (password.text) {
@@ -114,14 +106,14 @@ export default class Register extends Component {
                         errors: [...this.state.errors, 1],
                         password: {
                             text: password.text,
-                            err: 'Minimum lenght of password is 6'
-                        }
+                            err: 'Minimum lenght of password is 6',
+                        },
                     });
                 }
             } else {
                 this.setState({
                     errors: [...this.state.errors, 1],
-                    password: { text: '', err: 'Password required' }
+                    password: { text: '', err: 'Password required' },
                 });
             }
             if (age.text) {
@@ -130,19 +122,19 @@ export default class Register extends Component {
                 if (parsed <= 15) {
                     this.setState({
                         errors: [...this.state.errors, 1],
-                        age: { text: age.text, err: 'This service for 15+' }
+                        age: { text: age.text, err: 'This service for 15+' },
                     });
                 }
             } else {
                 this.setState({
                     errors: [...this.state.errors, 1],
-                    age: { text: '', err: 'Age required' }
+                    age: { text: '', err: 'Age required' },
                 });
             }
             if (!gender.text) {
                 this.setState({
                     errors: [...this.state.errors, 1],
-                    gender: { text: '', err: 'Gender required' }
+                    gender: { text: '', err: 'Gender required' },
                 });
             }
             resolve();
@@ -150,24 +142,19 @@ export default class Register extends Component {
     }
 
     validateEmail() {
-        const emailReg = new RegExp(
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+        const emailReg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         return emailReg.test(String(this.state.email.text).toLowerCase());
     }
 
-    inputChange = prop => event => {
+    inputChange = prop => (event) => {
         const removedErr = this.state.errors;
         removedErr.pop();
         this.setState({
             errors: removedErr,
-            [prop]: { text: event.target.value, err: '' }
+            [prop]: { text: event.target.value, err: '' },
         });
         if (prop === 'username' || prop === 'email') {
-            if (
-                this.props.validate.email !== '' ||
-                this.props.validate.username !== ''
-            ) {
+            if (this.props.validate.email !== '' || this.props.validate.username !== '') {
                 this.props.onFix(prop);
             }
         }
@@ -176,24 +163,18 @@ export default class Register extends Component {
         this.setState({ gender: { text } });
     };
 
-    saveImage = info => {
+    saveImage = (info) => {
         this.setState({ image: info.cdnUrl });
     };
     render() {
         const {
-            username,
-            password,
-            email,
-            age,
-            gender,
-            name,
-            selectedFile,
-            file
+            username, password, email, age, gender, name, selectedFile, file,
         } = this.state;
         return (
             <div className="register">
                 <h1>Register</h1>
                 <form onSubmit={this.onSubmit}>
+                    <Facebook />
                     <input
                         className="field"
                         value={username.text}
@@ -202,9 +183,7 @@ export default class Register extends Component {
                         placeholder="Username*"
                         name="username"
                     />
-                    {username.err ? (
-                        <p className="err">{username.err}</p>
-                    ) : null}
+                    {username.err ? <p className="err">{username.err}</p> : null}
                     {this.props.validate.username ? (
                         <p className="err">{this.props.validate.username}</p>
                     ) : null}
@@ -247,9 +226,7 @@ export default class Register extends Component {
                         placeholder="Password*"
                         name="password"
                     />
-                    {password.err ? (
-                        <p className="err">{password.err}</p>
-                    ) : null}
+                    {password.err ? <p className="err">{password.err}</p> : null}
 
                     <div>
                         <p>
@@ -271,16 +248,8 @@ export default class Register extends Component {
                             onChange={this.genderSelect}
                             className="flex"
                         >
-                            <FormControlLabel
-                                value="male"
-                                control={<Radio />}
-                                label="Male"
-                            />
-                            <FormControlLabel
-                                value="female"
-                                control={<Radio />}
-                                label="Female"
-                            />
+                            <FormControlLabel value="male" control={<Radio />} label="Male" />
+                            <FormControlLabel value="female" control={<Radio />} label="Female" />
                         </RadioGroup>
                     </FormControl>
                     {gender.err ? <p className="err">{gender.err}</p> : null}

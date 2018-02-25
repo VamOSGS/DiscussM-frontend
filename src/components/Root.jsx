@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import React from 'react';
+import { Route } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import purple from 'material-ui/colors/purple';
 
 import Login from './Login';
 import Register from './Register';
 import Header from './Header';
 import Profile from './Profile';
 import Home from './Home';
+import SetUsername from './SetUsername';
 
 const theme = createMuiTheme({
     palette: {
         primary: { main: '#1e3948' },
-        secondary: { main: '#ffc107' }
-    }
+        secondary: { main: '#ffc107' },
+    },
 });
 const Root = () => (
     <MuiThemeProvider theme={theme}>
@@ -22,13 +22,11 @@ const Root = () => (
             <div className="b">
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/my" render={props => <Profile my={true} />} />
+                <Route path="/set" component={SetUsername} />
+                <Route path="/my" render={() => <Profile my />} />
 
                 <Route path="/" exact component={Home} />
-                <Route
-                    path="/user/:username"
-                    render={props => <Profile my={false} />}
-                />
+                <Route path="/user/:username" render={() => <Profile my={false} />} />
             </div>
         </div>
     </MuiThemeProvider>
