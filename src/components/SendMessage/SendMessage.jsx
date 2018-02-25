@@ -27,20 +27,14 @@ export default class SendMessage extends Component {
     handleSubmit = e => {
         if (this.state.message.value) {
             this.setState({ loading: true });
-            const time = new Date().toTimeString().split('');
-            let mTime = '';
-            time.map((item, key) => {
-                if (key <= 7) {
-                    mTime += item;
-                }
-            });
+            const date = new Date().toDateString();
             const data = {
                 to: {
                     username: this.props.userpage.username,
                     id: this.props.userpage.id
                 },
                 message: {
-                    date: `${new Date().toDateString()}, ${mTime}`,
+                    date,
                     message: this.state.message.value
                 }
             };

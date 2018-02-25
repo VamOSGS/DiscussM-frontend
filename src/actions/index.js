@@ -34,15 +34,12 @@ export const setMessages = payload => ({
     payload
 });
 export const sendMessage = data => dispatch =>
-    axios
-        .post('/api/send', data)
-        .then(res => res.data)
+    axios.post('/api/send', data).then(res => res.data);
 export const getMessages = data => dispatch =>
     axios
         .patch('/api/messages', data)
         .then(res => res.data)
         .then(res => {
-            console.log(res);
             dispatch(setMessages(res.messages));
             return res;
         });

@@ -14,6 +14,7 @@ export default class Home extends Component {
                 <h1>
                     Welcome To <span>DiscussM</span>!
                 </h1>
+                <p>Get private messages from your friends and followers.</p>
             </div>
         );
     }

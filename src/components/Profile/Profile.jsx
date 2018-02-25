@@ -9,7 +9,10 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            defaultImage:
+                'https://ucarecdn.com/84054e53-0725-4f21-876a-5a6a8b3744f1/iconuserdefault.png',
+            notFound: false
         };
     }
 
@@ -26,13 +29,15 @@ export default class Profile extends Component {
                         this.setState({ loading: false });
                     }, 500);
                 }
-            });;
+            });
         } else {
             if (username === data.username) {
                 this.props.history.push('/my');
             } else {
                 this.props.onGetUserPage(username).then(res => {
                     if (res.success == true) {
+                        this.setState({ notFound: res.notFound });
+                        console.log(res.notFound);
                         setTimeout(() => {
                             this.setState({ loading: false });
                         }, 500);
@@ -54,7 +59,10 @@ export default class Profile extends Component {
             if (this.state.loading) {
                 return (
                     <main className="profile">
-                        <CircularProgress color="secondary" className="loader" />
+                        <CircularProgress
+                            color="secondary"
+                            className="loader"
+                        />
                     </main>
                 );
             } else {
@@ -63,8 +71,7 @@ export default class Profile extends Component {
                         <div className="userinfo">
                             <div className="img">
                                 <Avatar
-                                    src={`${window.location.origin}${image ||
-                                        '/uploads/user-default.png'}`}
+                                    src={image || this.state.defaultImage}
                                 />
                             </div>
 
@@ -82,12 +89,23 @@ export default class Profile extends Component {
                 gender,
                 image,
                 name,
+                notFound,
                 success
             } = this.props.userpage;
+            if (notFound) {
+                return (
+                    <main className="profile">
+                        <h2>User not found!</h2>
+                    </main>
+                );
+            }
             if (this.state.loading) {
                 return (
                     <main className="profile">
-                        <CircularProgress color="secondary" className="loader" />
+                        <CircularProgress
+                            color="secondary"
+                            className="loader"
+                        />
                     </main>
                 );
             } else if (success) {
@@ -96,7 +114,7 @@ export default class Profile extends Component {
                         <div className="userinfo">
                             <div className="img">
                                 <Avatar
-                                    src={`${window.location.origin}${image}`}
+                                    src={image || this.state.defaultImage}
                                 />
                             </div>
 
@@ -104,12 +122,6 @@ export default class Profile extends Component {
                             {name ? <p className="name"> {name} </p> : null}
                         </div>
                         <SendMessage />
-                    </main>
-                );
-            } else {
-                return (
-                    <main className="profile">
-                        <h2>User not found!</h2>
                     </main>
                 );
             }

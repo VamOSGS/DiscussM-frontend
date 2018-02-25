@@ -5,15 +5,16 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FileUpload from 'material-ui-icons/FileUpload';
 import IconButton from 'material-ui/IconButton';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
+import Uploader from './Uploader';
 import './Register.less';
 
 export default class Register extends Component {
     constructor(props) {
         super(props);
-        this.removeFile = this.removeFile.bind(this);
         this.initState = {
             selectedFile: '',
             errors: [],
+            image: '',
             username: {
                 text: '',
                 err: ''
@@ -37,23 +38,35 @@ export default class Register extends Component {
             age: {
                 text: '',
                 err: ''
-            },
-            file: {
-                name: '',
-                ext: ''
             }
         };
         this.state = this.initState;
     }
     onSubmit = e => {
         e.preventDefault();
-        const { selectedFile, name } = this.state;
-        const formData = new FormData();
-        this.validate(formData).then(() => {
+        const {
+            selectedFile,
+            username,
+            gender,
+            email,
+            password,
+            age,
+            image,
+            name
+        } = this.state;
+        this.validate().then(() => {
             if (this.state.errors.length === 0) {
-                formData.append('file', selectedFile);
-                formData.append('name', name.text);
-                this.props.onRegister(formData).then(d => {
+                const data = {
+                    username: username.text,
+                    name: name.text,
+                    email: email.text,
+                    password: password.text,
+                    age: age.text,
+                    image,
+                    gender: gender.text
+                };
+                console.log(data);
+                this.props.onRegister(data).then(d => {
                     this.setState(this.initState);
                     this.props.history.push('/my');
                 });
@@ -61,13 +74,6 @@ export default class Register extends Component {
         });
     };
 
-    getFileName() {
-        const nameArr = this.state.selectedFile.name.split('.');
-        const ext = `.${nameArr.pop()}`;
-        const name = nameArr.join('.');
-        const file = { name, ext };
-        this.setState({ file });
-    }
     validate(formData) {
         const { username, password, email, age, gender } = this.state;
         return new Promise(resolve => {
@@ -80,8 +86,6 @@ export default class Register extends Component {
                             err: 'Too short username'
                         }
                     });
-                } else {
-                    formData.append('username', username.text.trim());
                 }
             } else {
                 this.setState({
@@ -92,9 +96,7 @@ export default class Register extends Component {
 
             if (email.text) {
                 const isEmail = this.validateEmail();
-                if (isEmail) {
-                    formData.append('email', email.text.trim());
-                } else {
+                if (!isEmail) {
                     this.setState({
                         errors: [...this.state.errors, 1],
                         email: { text: email.text, err: 'Not valid Email!' }
@@ -115,8 +117,6 @@ export default class Register extends Component {
                             err: 'Minimum lenght of password is 6'
                         }
                     });
-                } else {
-                    formData.append('password', password.text.trim());
                 }
             } else {
                 this.setState({
@@ -127,9 +127,7 @@ export default class Register extends Component {
             if (age.text) {
                 const parse = age.text;
                 const parsed = parseInt(parse, 10);
-                if (parsed >= 15) {
-                    formData.append('age', parsed);
-                } else {
+                if (parsed <= 15) {
                     this.setState({
                         errors: [...this.state.errors, 1],
                         age: { text: age.text, err: 'This service for 15+' }
@@ -141,9 +139,7 @@ export default class Register extends Component {
                     age: { text: '', err: 'Age required' }
                 });
             }
-            if (gender.text) {
-                formData.append('gender', gender.text);
-            } else {
+            if (!gender.text) {
                 this.setState({
                     errors: [...this.state.errors, 1],
                     gender: { text: '', err: 'Gender required' }
@@ -160,30 +156,6 @@ export default class Register extends Component {
         return emailReg.test(String(this.state.email.text).toLowerCase());
     }
 
-    fileUpload = e => {
-        const { state } = this;
-
-        switch (e.target.name) {
-            case 'selectedFile':
-                [state.selectedFile] = e.target.files;
-                this.getFileName();
-                break;
-            default:
-                state[e.target.name] = e.target.value;
-        }
-
-        this.setState(state);
-        this.getFileName();
-    };
-    removeFile = e => {
-        this.setState({
-            selectedFile: '',
-            file: {
-                ext: '',
-                name: ''
-            }
-        });
-    };
     inputChange = prop => event => {
         const removedErr = this.state.errors;
         removedErr.pop();
@@ -204,6 +176,9 @@ export default class Register extends Component {
         this.setState({ gender: { text } });
     };
 
+    saveImage = info => {
+        this.setState({ image: info.cdnUrl });
+    };
     render() {
         const {
             username,
@@ -215,7 +190,6 @@ export default class Register extends Component {
             selectedFile,
             file
         } = this.state;
-
         return (
             <div className="register">
                 <h1>Register</h1>
@@ -276,36 +250,17 @@ export default class Register extends Component {
                     {password.err ? (
                         <p className="err">{password.err}</p>
                     ) : null}
+
                     <div>
-                        <input
-                            accept="image/*"
-                            id="raised-button-file"
-                            type="file"
-                            name="selectedFile"
-                            onChange={this.fileUpload}
-                            style={{ display: 'none' }}
-                        />
-                        <p>Upload your photo</p>
-                        <label htmlFor="raised-button-file">
-                            <Button variant="raised" component="span">
-                                Upload
-                                <FileUpload />
-                            </Button>
-                        </label>
-                    </div>
-                    <div className="uploaded">
-                        {selectedFile ? (
-                            <div>
-                                <p className="filename">{file.name}</p>
-                                <span>{file.ext}</span>
-                                <IconButton
-                                    onClick={this.removeFile}
-                                    aria-label="Delete"
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </div>
-                        ) : null}
+                        <p>
+                            <label htmlFor="file">Your Image:</label>{' '}
+                            <Uploader
+                                id="images"
+                                name="images"
+                                data-images-only
+                                onUploadComplete={this.saveImage}
+                            />
+                        </p>
                     </div>
                     <FormControl component="fieldset" required>
                         <FormLabel component="legend">Gender</FormLabel>
