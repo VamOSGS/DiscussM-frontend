@@ -72,6 +72,43 @@
         .username {
             color: #ffc107;
             margin: 5px;
+            font-size: 30px;
+            span {
+                font-size: 18px;
+                color: #aeb3bb;
+            }
         }
+        p {
+            font-size: 18px;
+        }
+    }
+    .copy {
+        margin: 25px auto 0;
+        .copied {
+            color: rgb(1, 167, 1);
+        }
+        div {
+            display: flex;
+            align-items: center;
+            button {
+                height: 50%;
+            }
+            input {
+                display: block;
+                padding: 15px 10px;
+                background-color: #f1f1f1;
+                border: none;
+                outline: none;
+                font-size: 16px;
+                font-family: Open Sans, sans-serif;
+                transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                box-shadow: 0 10px 50px -5px rgba(0, 0, 0, 0.15);
+                margin: 10px auto;
+                &:focus {
+                    box-shadow: 0 10px 50px 5px rgba(0, 0, 0, 0.15);
+                }
+            }
+        }
+        
     }
 }

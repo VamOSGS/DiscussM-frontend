@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 
-export default class componentName extends Component {
+export default class Facebook extends Component {
     responseFacebook = (response) => {
         const {
             id, name, email, gender,
         } = response;
-        const image = `http://graph.facebook.com/${id}/picture?width=500&height=500`;
+        const image = `https://graph.facebook.com/${id}/picture?width=500&height=500`;
         const user = {
             name,
             email,

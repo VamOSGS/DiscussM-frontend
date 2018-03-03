@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Avatar from 'material-ui/Avatar';
 import { CircularProgress } from 'material-ui/Progress';
+import Button from 'material-ui/Button';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Messages from '../Messages';
 import SendMessage from '../SendMessage';
 import './Profile.less';
@@ -13,6 +15,7 @@ export default class Profile extends Component {
             defaultImage:
                 'https://ucarecdn.com/84054e53-0725-4f21-876a-5a6a8b3744f1/iconuserdefault.png',
             notFound: false,
+            copied: false,
         };
     }
 
@@ -48,6 +51,7 @@ export default class Profile extends Component {
             const {
                 username, age, gender, email, image, name,
             } = this.props.user.user;
+            const url = `https://discussm.herokuapp.com/user/${username}`;
             if (this.state.loading) {
                 return (
                     <main className="profile">
@@ -62,8 +66,20 @@ export default class Profile extends Component {
                             <Avatar src={image || this.state.defaultImage} />
                         </div>
 
-                        <h2 className="username">{username}</h2>
+                        <h2 className="username">
+                            <span>@</span>
+                            {username}
+                        </h2>
                         {name ? <p className="name"> {name} </p> : null}
+                    </div>
+                    <div className="copy">
+                        {this.state.copied && <p className="copied">Your url copied</p>}
+                        <CopyToClipboard text={url} onCopy={() => this.setState({ copied: true })}>
+                            <div>
+                                <input type="text" value={url} />
+                                <Button color="primary">copy</Button>
+                            </div>
+                        </CopyToClipboard>
                     </div>
                     <Messages />
                 </main>
@@ -93,7 +109,10 @@ export default class Profile extends Component {
                             <Avatar src={image || this.state.defaultImage} />
                         </div>
 
-                        <h2 className="username">{username}</h2>
+                        <h2 className="username">
+                            <span>@</span>
+                            {username}
+                        </h2>
                         {name ? <p className="name"> {name} </p> : null}
                     </div>
                     <SendMessage />

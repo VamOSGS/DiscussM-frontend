@@ -30,7 +30,8 @@ export default class SetUsername extends Component {
             resolve();
         });
     }
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
         this.validate().then(() => {
             const { user } = this.props.location.state;
             if (this.state.errors.length === 0) {
@@ -53,6 +54,9 @@ export default class SetUsername extends Component {
                 err: '',
             },
         });
+        if (this.props.validate.password !== '' || this.props.validate.username !== '') {
+            this.props.onFix(prop);
+        }
     };
     render() {
         const { username } = this.state;
@@ -66,12 +70,15 @@ export default class SetUsername extends Component {
                         <img src={image} style={{ width: 100, height: 100 }} alt="fb" />
                     </li>
                     <li> Name: {name} </li>
-                    <li> Email: {email} </li>
-                    <li> Gender: {gender} </li>
+                    {email && <li> Email: {email} </li>}
+                    {gender && <li> Gender: {gender} </li>}
                     <li> Username: {username.value} </li>
                 </ul>
-                <form>
-                    {username.err ? <p className="err">{username.err}</p> : null}
+                <form onSubmit={this.handleSubmit}>
+                    {username.err && <p className="err">{username.err}</p>}
+                    {this.props.validate.username && (
+                        <p className="err">{this.props.validate.username}</p>
+                    )}
                     <input
                         className="field"
                         value={username.value}

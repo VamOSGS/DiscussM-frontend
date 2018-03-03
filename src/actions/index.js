@@ -70,6 +70,8 @@ export const fbAuth = data => dispatch =>
                 localStorage.setItem('token', res.token);
                 return res;
             }
+            dispatch(failRegister(res.error));
+            return res;
         });
 
 export const login = data => dispatch =>
